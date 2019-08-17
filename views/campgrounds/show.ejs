@@ -9,6 +9,7 @@
                 <li class="list-group-item">Info 2</li>
                 <li class="list-group-item">Info 3</li>
             </div>
+            <div id="map"></div>
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
@@ -18,7 +19,8 @@
                     <h4><a><%=campground.name%></a></h4>
                     <p><%= campground.description%></p>
                     <p>
-                        <em>Submitted By: <a href="/users/<%=campground.author.id%>"><%=campground.author.username%></a></em>
+                        <em>Submitted By: <a
+                                href="/users/<%=campground.author.id%>"><%=campground.author.username%></a></em>
                     </p>
                     <% if((currentUser && campground.author.id.equals(currentUser._id))||(currentUser&&currentUser.isAdmin)){%>
                     <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
@@ -57,9 +59,39 @@
                 </div>
                 <%})%>
 
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <%include ../partials/footer%>
+<script>
+    function initMap() {
+      var lat = <%= campground.lat %>;
+      var lng = <%= campground.lng %>;
+      var center = {lat: lat, lng: lng };
+      var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: center,
+          scrollwheel: false
+      });
+      var contentString = `
+        <strong><%= campground.name %><br />
+        <%= campground.location %></strong>
+        <p><%= campground.description %></p>
+      `
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      var marker = new google.maps.Marker({
+          position: center,
+          map: map
+      });
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });s
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQJbML2d8XY-eRNk1-icAXZ7sBdnj_XCs&callback=initMap"></script>
+  
+
+<%include ../partials/footer%>
