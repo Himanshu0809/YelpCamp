@@ -20,28 +20,37 @@
                 <form action="/campgrounds" method="GET" class="form-inline">
                     <div class="form-group">
                         <input type="text" name="search" placeholder="Campground search..." class="form-control">
-                       <input type="submit" value="Search" class="btn btn-default">
+                        <input type="submit" value="Search" class="btn btn-default">
                     </div>
                 </form>
             </p>
             <%}%>
         </div>
         <%campgrounds.forEach(function(campground){%>
-        <div class="col-md-3 col-sm-6">
-            <div class="thumbnail">
-                <img src="<%=campground.image%>">
-                <div class="caption">
-                    <h4><%=campground.name%></h4>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src="<%=campground.image%>">
+                    <div class="caption">
+                        <h4><%=campground.name%></h4>
+                        <% if (campground.rating === 0) { %>
+                        <em>No reviews yet.</em>
+                        <% } else { %>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star <% if (campground.rating > 1.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (campground.rating > 2.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (campground.rating > 3.5) { %> checked <% } %>"></span>
+                        <span class="fa fa-star <% if (campground.rating > 4.5) { %> checked <% } %>"></span>
+                        <% } %>
+                    </div>
+                    <p>
+                        <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary">More Info</a>
+                    </p>
                 </div>
-                <p>
-                    <a href="/campgrounds/<%=campground._id%>" class="btn btn-primary">More Info</a>
-                </p>
             </div>
+
+            <%});%>
         </div>
 
-        <%});%>
     </div>
 
-</div>
-
-<%include ../partials/footer%>
+    <%include ../partials/footer%>

@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Campground = require("../models/campgrounds");
 var middleware = require("../middleware");
+var Review = require("../models/review");
 var NodeGeocoder = require('node-geocoder');
 
 var options = {
@@ -110,7 +111,10 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 //SHOW - show more info about one campground
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    Campground.findById(req.params.id).populate("comments").exec(function (err, foundCampground) {
+    Campground.findById(req.params.id).populate("comments").populate({
+        path:"reviews",
+        options:{sort:{createdAt:-1}}
+    }).exec(function (err, foundCampground) {
         if (err || !foundCampground) {
             req.flash("error", "Campground Not Found!!");
             return res.redirect("back");
@@ -130,6 +134,8 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function (req, res)
 
 //UPDATE CAMPGROUND ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), function (req, res) {
+    delete req.body.campground.rating;
+    //find and update the correct campground
     Campground.findById(req.params.id, async function (err, campground) {
         if (err) {
             req.flash("error", err.message);
@@ -174,10 +180,26 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
             return res.redirect("back");
         }
         try {
-            await cloudinary.v2.uploader.destroy(campground.imageId);
-            campground.remove();
-            req.flash('success', 'Campground deleted successfully!');
-            res.redirect('/campgrounds');
+            //delete all comments associated with the campground
+            await Comment.remove({"_id":{$in:campground.comments}},async function(err){
+                if(err){
+                    req.flash("error", err.message);
+                    return res.redirect("back");
+                }
+                //delete all the reviews associated with the campground
+                Review.remove({"_id": {$in: campground.reviews}}, async function (err) {
+                    if (err) {
+                        req.flash("error", err.message);
+                        return res.redirect("back");
+                    }
+                    //delete the campground
+                    await cloudinary.v2.uploader.destroy(campground.imageId);
+                    campground.remove();
+                    req.flash('success', 'Campground deleted successfully!');
+                    res.redirect('/campgrounds');
+                });
+            });
+            
         } catch (err) {
             if (err) {
                 req.flash("error", err.message);

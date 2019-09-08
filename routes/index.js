@@ -63,11 +63,12 @@ router.get("/logout", function (req, res) {
     res.redirect("/campgrounds");
 });
 
-//forgot
+//forgot password
 router.get("/forgot", function (req, res) {
     res.render("forgot");
 });
 
+//forgot password post route
 router.post('/forgot', function (req, res, next) {
     async.waterfall([
         function (done) {
