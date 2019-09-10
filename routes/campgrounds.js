@@ -111,9 +111,9 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 //SHOW - show more info about one campground
 router.get("/:id", function (req, res) {
     //find the campground with provided ID
-    Campground.findById(req.params.id).populate("comments").populate({
-        path:"reviews",
-        options:{sort:{createdAt:-1}}
+    Campground.findById(req.params.id).populate("comments likes").populate({
+        path: "reviews",
+        options: { sort: { createdAt: -1 } }
     }).exec(function (err, foundCampground) {
         if (err || !foundCampground) {
             req.flash("error", "Campground Not Found!!");
@@ -122,6 +122,37 @@ router.get("/:id", function (req, res) {
             //render show template with that campground
             res.render("campgrounds/show", { campground: foundCampground });
         }
+    });
+});
+
+// Campground Like Route
+router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
+    Campground.findById(req.params.id, function (err, foundCampground) {
+        if (err) {
+            console.log(err);
+            return res.redirect("/campgrounds");
+        }
+
+        // check if req.user._id exists in foundCampground.likes
+        var foundUserLike = foundCampground.likes.some(function (like) {
+            return like.equals(req.user._id);
+        });
+
+        if (foundUserLike) {
+            // user already liked, removing like
+            foundCampground.likes.pull(req.user._id);
+        } else {
+            // adding the new user like
+            foundCampground.likes.push(req.user);
+        }
+
+        foundCampground.save(function (err) {
+            if (err) {
+                console.log(err);
+                return res.redirect("/campgrounds");
+            }
+            return res.redirect("/campgrounds/" + foundCampground._id);
+        });
     });
 });
 
@@ -164,9 +195,16 @@ router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), 
                 campground.name = req.body.campground.name;
                 campground.description = req.body.campground.description;
                 campground.price = req.body.campground.price;
-                campground.save();
-                req.flash("success", "Successfully Updated!");
-                res.redirect("/campgrounds/" + campground._id);
+                campground.save(function (err) {
+                    if (err) {
+                        req.flash("error", err.message);
+                        res.redirect("back");
+                    }
+                    else {
+                        req.flash("success", "Successfully Updated!");
+                        res.redirect("/campgrounds/" + campground._id);
+                    }
+                });
             });
         }
     });
@@ -181,13 +219,13 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
         }
         try {
             //delete all comments associated with the campground
-            await Comment.remove({"_id":{$in:campground.comments}},async function(err){
-                if(err){
+            await Comment.remove({ "_id": { $in: campground.comments } }, async function (err) {
+                if (err) {
                     req.flash("error", err.message);
                     return res.redirect("back");
                 }
                 //delete all the reviews associated with the campground
-                Review.remove({"_id": {$in: campground.reviews}}, async function (err) {
+                Review.remove({ "_id": { $in: campground.reviews } }, async function (err) {
                     if (err) {
                         req.flash("error", err.message);
                         return res.redirect("back");
@@ -199,7 +237,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function (req, res) {
                     res.redirect('/campgrounds');
                 });
             });
-            
+
         } catch (err) {
             if (err) {
                 req.flash("error", err.message);

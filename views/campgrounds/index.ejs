@@ -32,6 +32,9 @@
                     <img src="<%=campground.image%>">
                     <div class="caption">
                         <h4><%=campground.name%></h4>
+                        <div>
+                            <span class="badge label-primary"><i class="fas fa-thumbs-up"></i> <%= campground.likes.length %></span>
+                        </div>                 
                         <% if (campground.rating === 0) { %>
                         <em>No reviews yet.</em>
                         <% } else { %>
@@ -47,10 +50,8 @@
                     </p>
                 </div>
             </div>
-
-            <%});%>
-        </div>
-
+        <%});%>
     </div>
+</div>
 
-    <%include ../partials/footer%>
+<%include ../partials/footer%>
