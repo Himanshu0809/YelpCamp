@@ -37,6 +37,8 @@ app.use(flash());
 // seedDB();   //every time we run the server seeds.js runs
 
 
+app.locals.moment = require('moment');
+
 //PASSPORT CONFIGURATION
 app.use(expressSession({
     secret: "This is the yelpcamp secret",
