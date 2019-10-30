@@ -25,7 +25,9 @@ var commentRoutes    = require("./routes/comments"),
     indexRoutes      = require("./routes/index")
     
 var url=process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp_12";
-mongoose.connect(url);
+mongoose.connect(url, { useNewUrlParser: true })
+        .then(() => console.log(`Database connected`))
+        .catch(err => console.log(`Database connection error: ${err.message}`));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
