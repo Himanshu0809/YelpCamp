@@ -3,7 +3,7 @@ var router = express.Router();
 var Campground = require("../models/campgrounds");
 var middleware = require("../middleware");
 var Review = require("../models/review");
-var Comment=require("../models/comment");
+var Comment = require("../models/comment");
 // var NodeGeocoder = require('node-geocoder');
 
 // var options = {
@@ -39,32 +39,40 @@ cloudinary.config({
 
 //INDEX - show all campgrounds
 router.get("/", function (req, res) {
-    var noMatch;
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
     if (req.query.search) {
         //make a new regular expression when we pass string to the function and store it in a variable
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         //Get all campgrounds from the DB
-        Campground.find({ name: regex }, function (err, allcampgrounds) {
-            if (err || !allcampgrounds) {
-                req.flash("Something Went Wrong!!");
-                console.log(err)
-            }
-            else {
-                if (allcampgrounds.length < 1) {
-                    noMatch = "No campgrounds match that query";
+        Campground.find({ name: regex }).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allcampgrounds) {
+            Campground.count({ name: regex }).exec(function (err, count) {
+                if (err || !allcampgrounds) {
+                    req.flash("Something Went Wrong!!");
+                    console.log(err)
+                    res.redirect("back");
                 }
-                res.render("campgrounds/index", { campgrounds: allcampgrounds, currentUser: req.user, noMatch: noMatch });
-            }
+                else {
+                    if (allcampgrounds.length < 1) {
+                        noMatch = "No campgrounds match that query, please try again!";
+                    }
+                    res.render("campgrounds/index", { campgrounds: allcampgrounds, currentUser: req.user, noMatch: noMatch, current: pageNumber, pages: Math.ceil(count / perPage), search: req.query.search });
+                }
+            });
         });
     } else {
         //Get all campgrounds from the DB
-        Campground.find({}, function (err, allcampgrounds) {
-            if (err) {
-                console.log(err)
-            }
-            else {
-                res.render("campgrounds/index", { campgrounds: allcampgrounds, currentUser: req.user, noMatch: noMatch });
-            }
+        Campground.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allcampgrounds) {
+            Campground.count().exec(function (err, count) {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    res.render("campgrounds/index", { campgrounds: allcampgrounds, currentUser: req.user, noMatch: noMatch, current: pageNumber, pages: Math.ceil(count / perPage), search: false });
+                }
+            });
         });
     }
 });
