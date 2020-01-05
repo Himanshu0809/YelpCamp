@@ -200,7 +200,6 @@ router.get("/users/:id", function (req, res) {
     })
 });
 
-
 // follow user
 router.get('/follow/:id', middleware.isLoggedIn, async function (req, res) {
     try {
