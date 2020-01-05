@@ -6,6 +6,7 @@ var Campground = require("../models/campgrounds");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
+var middleware = require("../middleware");
 
 //root route
 router.get("/", function (req, res) {
@@ -33,7 +34,7 @@ router.post("/register", function (req, res) {
     }
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
-            return res.render("register",{error:err.message});
+            return res.render("register", { error: err.message });
         }
         passport.authenticate("local")(req, res, function () {
             req.flash("success", "Welcome to YelpCamp " + user.username);
@@ -184,7 +185,7 @@ router.post('/reset/:token', function (req, res) {
 
 //USERS PROFILE
 router.get("/users/:id", function (req, res) {
-    User.findById(req.params.id, function (err, foundUser) {
+    User.findById(req.params.id).populate('followers').exec(function (err, foundUser) {
         if (err) {
             req.flash("error", "Something went wrong");
             res.redirect("/");
@@ -197,6 +198,49 @@ router.get("/users/:id", function (req, res) {
             res.render("users/show", { user: foundUser, campgrounds: campgrounds });
         })
     })
+});
+
+
+// follow user
+router.get('/follow/:id', middleware.isLoggedIn, async function (req, res) {
+    try {
+        let user = await User.findById(req.params.id);
+        user.followers.push(req.user._id); //follow the user requested and add it
+        user.save();
+        req.flash('success', 'Successfully followed ' + user.username + '!');
+        res.redirect('/users/' + req.params.id);
+    } catch (err) {
+        req.flash('error', err.message);
+        res.redirect('back');
+    }
+});
+
+// view all notifications
+router.get('/notifications', isLoggedIn, async function (req, res) {
+    try {
+        let user = await User.findById(req.user._id).populate({
+            path: 'notifications',
+            options: { sort: { "_id": -1 } }    //sorting the notification in descending order i.e. the newest will be seen on the top
+        }).exec();
+        let allNotifications = user.notifications;
+        res.render('notifications/index', { allNotifications });
+    } catch (err) {
+        req.flash('error', err.message);
+        res.redirect('back');
+    }
+});
+
+// handle notification
+router.get('/notifications/:id', isLoggedIn, async function (req, res) {
+    try {
+        let notification = await Notification.findById(req.params.id);
+        notification.isRead = true;
+        notification.save();
+        res.redirect(`/campgrounds/${notification.campgroundId}`);      //${notification.campgroundId} it helps to retrieve campground id of a notification
+    } catch (err) {
+        req.flash('error', err.message);
+        res.redirect('back');
+    }
 });
 
 module.exports = router;
