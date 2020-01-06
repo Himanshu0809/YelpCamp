@@ -4,6 +4,8 @@ var Campground = require("../models/campgrounds");
 var middleware = require("../middleware");
 var Review = require("../models/review");
 var Comment = require("../models/comment");
+var Notification = require("../models/notification");
+var User = require("../models/user");
 // var NodeGeocoder = require('node-geocoder');
 
 // var options = {
@@ -112,8 +114,10 @@ router.get("/", function (req, res) {
 //     });
 // });
 
-router.post("/", middleware.isLoggedIn, upload.single('image'), function (req, res) {
-    cloudinary.v2.uploader.upload(req.file.path, function (err, result) {
+//CREATE - add new campground
+
+router.post("/", middleware.isLoggedIn, upload.single('image'), async function (req, res) {
+    cloudinary.v2.uploader.upload(req.file.path, async function (err, result) {
         if (err) {
             req.flash("error", err.message);
             return res.redirect('back');
@@ -127,13 +131,43 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function (req, r
             id: req.user._id,
             username: req.user.username
         };
-        Campground.create(req.body.campground, function (err, campground) {
-            if (err) {
-                req.flash('error', err.message);
-                return res.redirect('back');
+        try {
+            let campground =await Campground.create(req.body.campground);
+            let user =await User.findById(req.user._id).populate('followers').exec();
+            let newNotification = {
+                username: req.user.username,
+                campgroundId: campground.id
             }
-            res.redirect('/campgrounds/' + campground.id);
-        });
+            for (const follower of user.followers) {
+                let notification = await Notification.create(newNotification);
+                follower.notifications.push(notification);
+                follower.save();
+            }
+
+            //redirect back to campgrounds page
+            res.redirect(`/campgrounds/${campground.id}`);
+        } catch (err) {
+            req.flash('error', err.message);
+            res.redirect('back');
+        }
+        // Campground.create(req.body.campground,function (err, campground) {
+        //     if (err) {
+        //         req.flash('error', err.message);
+        //         return res.redirect('back');
+        //     }
+        //     User.findById(req.user._id).populate("followers").exec(function(err, user){
+        //         let newNotification = {
+        //             username: req.user.username,
+        //             campgroundId: campground.id
+        //           }
+        //           for(const follower of user.followers) {
+        //             let notification = Notification.create(newNotification);
+        //             follower.notifications.push(notification);
+        //             follower.save();
+        //           }
+        //           res.redirect(`/campgrounds/${campground.id}`);
+        //     })
+        // });
     });
 });
 

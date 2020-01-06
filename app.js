@@ -10,24 +10,25 @@ var express = require("express"),
     methodOverride = require("method-override"),
     passportLocalMongoose = require("passport-local-mongoose"),
     expressSession = require("express-session"),
-    async=require("async"),
-    nodemailer=require("nodemailer"),
-    crypto=require("crypto"),
+    async = require("async"),
+    nodemailer = require("nodemailer"),
+    crypto = require("crypto"),
     Campground = require("./models/campgrounds.js"),
     Comment = require("./models/comment"),
     User = require("./models/user"),
+    Notification=require("./models/notification"),
     seedDB = require("./seeds.js")
 
 //requiring routes
-var commentRoutes    = require("./routes/comments"),
-    reviewRoutes     = require("./routes/reviews"),
+var commentRoutes = require("./routes/comments"),
+    reviewRoutes = require("./routes/reviews"),
     campgroundRoutes = require("./routes/campgrounds"),
-    indexRoutes      = require("./routes/index")
-    
-var url=process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp_12";
+    indexRoutes = require("./routes/index")
+
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp_12";
 mongoose.connect(url, { useNewUrlParser: true })
-        .then(() => console.log(`Database connected`))
-        .catch(err => console.log(`Database connection error: ${err.message}`));
+    .then(() => console.log(`Database connected`))
+    .catch(err => console.log(`Database connection error: ${err.message}`));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -51,8 +52,17 @@ passport.use(new LocalStrategy(User.authenticate()));//User.authenticate comes i
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(function (req, res, next) {
+app.use(async function (req, res, next) {         //make this function async
     res.locals.currentUser = req.user;
+    if (req.user) {
+        try {
+            let user=await User.findById(req.user._id).populate('notifications', null, { isRead: false }).exec();
+            res.locals.notifications = user.notifications.reverse();
+        } catch (err) {
+            console.log("hello");
+            console.log(err.message);
+        }
+    }
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
     next();

@@ -7,6 +7,7 @@ var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
 var middleware = require("../middleware");
+var Notification=require("../models/notification");
 
 //root route
 router.get("/", function (req, res) {
@@ -201,9 +202,9 @@ router.get("/users/:id", function (req, res) {
 });
 
 // follow user
-router.get('/follow/:id', middleware.isLoggedIn, async function (req, res) {
+router.get('/follow/:id', middleware.isLoggedIn, function (req, res) {
     try {
-        let user = await User.findById(req.params.id);
+        let user =  User.findById(req.params.id);
         user.followers.push(req.user._id); //follow the user requested and add it
         user.save();
         req.flash('success', 'Successfully followed ' + user.username + '!');
@@ -215,9 +216,9 @@ router.get('/follow/:id', middleware.isLoggedIn, async function (req, res) {
 });
 
 // view all notifications
-router.get('/notifications', isLoggedIn, async function (req, res) {
+router.get('/notifications',middleware.isLoggedIn, function (req, res) {
     try {
-        let user = await User.findById(req.user._id).populate({
+        let user =  User.findById(req.user._id).populate({
             path: 'notifications',
             options: { sort: { "_id": -1 } }    //sorting the notification in descending order i.e. the newest will be seen on the top
         }).exec();
@@ -230,9 +231,9 @@ router.get('/notifications', isLoggedIn, async function (req, res) {
 });
 
 // handle notification
-router.get('/notifications/:id', isLoggedIn, async function (req, res) {
+router.get('/notifications/:id',middleware.isLoggedIn, function (req, res) {
     try {
-        let notification = await Notification.findById(req.params.id);
+        let notification = Notification.findById(req.params.id);
         notification.isRead = true;
         notification.save();
         res.redirect(`/campgrounds/${notification.campgroundId}`);      //${notification.campgroundId} it helps to retrieve campground id of a notification
