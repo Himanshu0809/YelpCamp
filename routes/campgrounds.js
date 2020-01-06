@@ -131,43 +131,43 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), async function (
             id: req.user._id,
             username: req.user.username
         };
-        try {
-            let campground =await Campground.create(req.body.campground);
-            let user =await User.findById(req.user._id).populate('followers').exec();
-            let newNotification = {
-                username: req.user.username,
-                campgroundId: campground.id
-            }
-            for (const follower of user.followers) {
-                let notification = await Notification.create(newNotification);
-                follower.notifications.push(notification);
-                follower.save();
-            }
-
-            //redirect back to campgrounds page
-            res.redirect(`/campgrounds/${campground.id}`);
-        } catch (err) {
-            req.flash('error', err.message);
-            res.redirect('back');
-        }
-        // Campground.create(req.body.campground,function (err, campground) {
-        //     if (err) {
-        //         req.flash('error', err.message);
-        //         return res.redirect('back');
+        // try {
+        //     let campground =await Campground.create(req.body.campground);
+        //     let user =await User.findById(req.user._id).populate('followers').exec();
+        //     let newNotification = {
+        //         username: req.user.username,
+        //         campgroundId: campground.id
         //     }
-        //     User.findById(req.user._id).populate("followers").exec(function(err, user){
-        //         let newNotification = {
-        //             username: req.user.username,
-        //             campgroundId: campground.id
-        //           }
-        //           for(const follower of user.followers) {
-        //             let notification = Notification.create(newNotification);
-        //             follower.notifications.push(notification);
-        //             follower.save();
-        //           }
-        //           res.redirect(`/campgrounds/${campground.id}`);
-        //     })
-        // });
+        //     for (const follower of user.followers) {
+        //         let notification = await Notification.create(newNotification);
+        //         follower.notifications.push(notification);
+        //         follower.save();
+        //     }
+
+        //     //redirect back to campgrounds page
+        //     res.redirect(`/campgrounds/${campground.id}`);
+        // } catch (err) {
+        //     req.flash('error', err.message);
+        //     res.redirect('back');
+        // }
+        Campground.create(req.body.campground, function (err, campground) {
+            if (err) {
+                req.flash('error', err.message);
+                return res.redirect('back');
+            }
+            User.findById(req.user._id).populate("followers").exec(function (err, user) {
+                let newNotification = {
+                    username: req.user.username,
+                    campgroundId: campground.id
+                }
+                for (const follower of user.followers) {
+                    let notification = Notification.create(newNotification);
+                    follower.notifications.push(notification);
+                    follower.save();
+                }
+                res.redirect(`/campgrounds/${campground.id}`);
+            })
+        });
     });
 });
 

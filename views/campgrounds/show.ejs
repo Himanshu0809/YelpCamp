@@ -45,10 +45,11 @@
                     </div>
                     <p><%= campground.description%></p>
                     <p>
-                        <em>Submitted By: <a href="/users/<%=campground.author.id%>"><%= campground.author.username %>,
-                                <%= moment(campground.createdAt).fromNow() %></a></%=campground.author.id%>
+                        <em>Submitted By: <a href="/users/<%=campground.author.id%>"><%= campground.author.username %></a></em>,
+                                <%= moment(campground.createdAt).fromNow() %></%=campground.author.id%>
                     </p>
                     <% if((currentUser && campground.author.id.equals(currentUser._id))||(currentUser&&currentUser.isAdmin)){%>
+                    <br>
                     <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
                     <form id="delete-form" action="/campgrounds/<%= campground._id%>?_method=delete" method="POST">
                         <button class="btn btn-xs btn-danger">Delete</button>
@@ -57,7 +58,7 @@
                     
                 </div>
             </div>
-
+            <!-- reviews -->
             <div class="thumbnail">
                 <div class="caption-full">
                     <% if (campground.rating === 0) { %>
@@ -65,31 +66,34 @@
                         <em>No reviews yet.</em>
                     </h5>
                     <% } else { %>
-                    <p>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star <% if (campground.rating > 1.5) { %> checked <% } %>"></span>
-                        <span class="fa fa-star <% if (campground.rating > 2.5) { %> checked <% } %>"></span>
-                        <span class="fa fa-star <% if (campground.rating > 3.5) { %> checked <% } %>"></span>
-                        <span class="fa fa-star <% if (campground.rating > 4.5) { %> checked <% } %>"></span>
-                        <em>(total reviews: <%= campground.reviews.length %>)</em>
-                    </p>
-                    <p>
-                        Current campground rating: <strong><%= campground.rating.toFixed(2) %></strong>
-                    </p>
-                    <p>
-                        <h4>Latest reviews for this campground:</h4>
-                    </p>
-                    <hr style="margin-top: 0;">
+                    <div>
+                        <p>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star <% if (campground.rating > 1.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (campground.rating > 2.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (campground.rating > 3.5) { %> checked <% } %>"></span>
+                            <span class="fa fa-star <% if (campground.rating > 4.5) { %> checked <% } %>"></span>
+                            <em>(total reviews: <%= campground.reviews.length %>)</em>
+                        </p>
+                        <p>
+                            Current campground rating: <strong><%= campground.rating.toFixed(2) %></strong>
+                        </p>
+                        <p>
+                            <h4>Latest reviews for this campground:</h4>
+                        </p>
+                    </div>
+                    
+                    <hr style="margin-top: 0; border: 2px solid black;">
                     <% campground.reviews.slice(0, 5).forEach(function(review){ %>
                     <div class="row">
                         <div class="col-md-3">
                             <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - review.rating) %>
-                            <div>Review by: <strong><%= review.author.username %></strong></div>
+                            <div>Review by: <strong><a href="/users/<%=review.author.id%>"><%= review.author.username %></a></strong></div>
                             <span><em><%= review.updatedAt.toDateString() %></em></span>
                         </div>
                         <div class="col-md-9">
-                            <p style="text-align: justify; word-wrap: break-word;">
-                                <%= review.text %>
+                            <p style="text-align: justify; word-wrap: break-word; font-size: large;">
+                                - <%= review.text %>
                             </p>
                             <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
                             <a class="btn btn-xs btn-warning"
@@ -160,7 +164,7 @@
                 <!--Comment section title-->
                 <h4><strong>Comments <span class="glyphicon glyphicon glyphicon-comment"
                             aria-hidden="true"></span></strong></h4>
-
+                            <hr style=" border: 2px solid black;">
                 <!--Collapse Add a comment form START-->
                 <div class="collapse" id="collapseComment">
                     <div class="well" style="border-left: 5px solid #00C851;">
@@ -212,7 +216,7 @@
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                             <% } %>
                             <!--Print out the author username-->
-                            <%= comment.author.username %>
+                            <a href="/users/<%=comment.author.id%>"><%= comment.author.username %></a>
                         </strong>
                         <!--Show when the comment was made-->
                         <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
