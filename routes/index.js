@@ -185,13 +185,13 @@ router.post('/reset/:token', function (req, res) {
 });
 
 //USERS PROFILE
-router.get("/users/:id", function (req, res) {
-    User.findById(req.params.id).populate('followers').exec(function (err, foundUser) {
+router.get("/users/:id",async function (req, res) {
+    await User.findById(req.params.id).populate('followers').exec(async function (err, foundUser) {
         if (err) {
             req.flash("error", "Something went wrong");
             res.redirect("/");
         }
-        Campground.find().where('author.id').equals(foundUser._id).exec(function (err, campgrounds) {
+        await Campground.find().where('author.id').equals(foundUser._id).exec(function (err, campgrounds) {
             if (err) {
                 req.flash("error", "Something went wrong");
                 res.redirect("/");
@@ -202,9 +202,9 @@ router.get("/users/:id", function (req, res) {
 });
 
 // follow user
-router.get('/follow/:id', middleware.isLoggedIn, function (req, res) {
+router.get('/follow/:id', middleware.isLoggedIn, async function (req, res) {
     try {
-        let user =  User.findById(req.params.id);
+        let user = await User.findById(req.params.id);
         user.followers.push(req.user._id); //follow the user requested and add it
         user.save();
         req.flash('success', 'Successfully followed ' + user.username + '!');
@@ -216,9 +216,9 @@ router.get('/follow/:id', middleware.isLoggedIn, function (req, res) {
 });
 
 // view all notifications
-router.get('/notifications',middleware.isLoggedIn, function (req, res) {
+router.get('/notifications',middleware.isLoggedIn, async function (req, res) {
     try {
-        let user =  User.findById(req.user._id).populate({
+        let user = await User.findById(req.user._id).populate({
             path: 'notifications',
             options: { sort: { "_id": -1 } }    //sorting the notification in descending order i.e. the newest will be seen on the top
         }).exec();
@@ -231,9 +231,9 @@ router.get('/notifications',middleware.isLoggedIn, function (req, res) {
 });
 
 // handle notification
-router.get('/notifications/:id',middleware.isLoggedIn, function (req, res) {
+router.get('/notifications/:id',middleware.isLoggedIn, async function (req, res) {
     try {
-        let notification = Notification.findById(req.params.id);
+        let notification = await Notification.findById(req.params.id);
         notification.isRead = true;
         notification.save();
         res.redirect(`/campgrounds/${notification.campgroundId}`);      //${notification.campgroundId} it helps to retrieve campground id of a notification

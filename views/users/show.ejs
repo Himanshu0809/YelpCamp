@@ -8,15 +8,34 @@
                 <img src="<%=user.avatar%>" alt="user profile image">
                 <div class="caption"><a href="mailto:<%=user.email%>"><%=user.email%></a></div>
             </div>
+            <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
             This is a good post and we are going to display all the posts by that user on the user profile page.
         </div>
         <div class="col-md-8">
-            <h3><%=user.username%>'s Campgrounds</h3>
-            <ul>
-                <%campgrounds.forEach(function(campground){%>
-                <a href="/campgrounds/<%=campground.id%>"><%=campground.name%></a>
-                <%});%>
-            </ul>
+            <div>
+                <h3><%=user.username%>'s Campgrounds</h3>
+                <ul>
+                    <%campgrounds.forEach(function(campground){%>
+                        <ul>
+                            <li>
+                                <a href="/campgrounds/<%=campground.id%>"><%=campground.name%></a>
+                            </li>
+                        </ul>
+                    <%});%>
+                </ul>
+            </div>
+            <div>
+                <h3><%=user.username%>'s Followers</h3>
+                <ul>
+                    <% user.followers.forEach(function(follower){%>
+                        <ul>
+                            <li>
+                                <a href="/users/<%=follower.id%>"><%=follower.username%></a>
+                            </li>
+                        </ul>
+                    <%})%>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
