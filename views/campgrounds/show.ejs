@@ -24,7 +24,7 @@
                         </button>
                     </div>
                     <div style="padding-bottom: 10px;">
-                        <form action="/campgrounds/<%= campground._id %>/like" method="POST">
+                        <form action="/campgrounds/<%= campground.slug %>/like" method="POST">
                             <div class="btn-group">
                                 <% if (currentUser && campground.likes.some(function (like) {
                                     return like.equals(currentUser._id)
@@ -50,12 +50,11 @@
                     </p>
                     <% if((currentUser && campground.author.id.equals(currentUser._id))||(currentUser&&currentUser.isAdmin)){%>
                     <br>
-                    <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
-                    <form id="delete-form" action="/campgrounds/<%= campground._id%>?_method=delete" method="POST">
+                    <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground.slug %>/edit">Edit</a>
+                    <form id="delete-form" action="/campgrounds/<%= campground.slug %>?_method=delete" method="POST">
                         <button class="btn btn-xs btn-danger">Delete</button>
                     </form>
                     <%}%> 
-                    
                 </div>
             </div>
             <!-- reviews -->
@@ -177,7 +176,7 @@
                         <!--If the user is logged in, show the new comment form-->
                         <h4>Write your comment <span class="glyphicon glyphicon glyphicon-pencil"
                                 aria-hidden="true"></span></h4>
-                        <form id="add-comment-form" action="/campgrounds/<%= campground._id %>/comments" method="POST">
+                        <form id="add-comment-form" action="/campgrounds/<%= campground.slug %>/comments" method="POST">
                             <div class="form-group">
                                 <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
                             </div>
@@ -231,7 +230,7 @@
                             Edit</a>
                         <!--Delete comment button-->
                         <form id="delete-form"
-                            action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE"
+                            action="/campgrounds/<%= campground.slug %>/comments/<%= comment._id %>?_method=DELETE"
                             method="POST" style="display: inline;">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
@@ -241,7 +240,7 @@
                                 <h4>Edit your comment <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                 </h4>
                                 <form id="edit-comment-form"
-                                    action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=PUT"
+                                    action="/campgrounds/<%= campground.slug %>/comments/<%= comment._id %>?_method=PUT"
                                     method="POST">
                                     <div class="form-group">
                                         <input class="form-control" type="text" disabled
