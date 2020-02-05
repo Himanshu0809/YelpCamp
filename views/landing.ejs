@@ -1,55 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>YelpCamp</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/stylesheets/landing.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"
-            async></script>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151222018-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
 
-            gtag('config', 'UA-151222018-1');
-        </script>
-    
-    </head>
-    <body>
-    
-    <div class="container">
+<head>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "590ead30-8e09-4732-a041-d3f9159c3d49",
+            });
+        });
+    </script>
+    <link rel="icon" type="image/png"
+        href="data:image/jpeg;base64,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" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YelpCamp</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
+
+    <!-- Bootstrap 4.3.1 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+
+    <!-- Including custom stylesheets -->
+    <link rel="stylesheet" href="/stylesheets/landing.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"
+        async></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151222018-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-151222018-1');
+    </script>
+
+</head>
+
+<body>
+
+    <!-- <div class="container">
         <% if(error && error.length > 0){ %>
-            <div class="alert alert-danger" role="alert">
-                <%= error %>
-            </div>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
         <% } %>
         <% if(success && success.length > 0){ %>
-            <div class="alert alert-success" role="alert">
-                <%= success %>
-            </div>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
         <% } %>
-    </div>
+    </div> -->
     <div id="landing-header">
         <h1>Welcome to YelpCamp!</h1>
-        <a href="/campgrounds" class="btn btn-lg btn-success">View All Campgrounds</a>
+        <a href="/campgrounds" class="btn btn-outline-light">Explore</a>
         <p>
             <form action="/campgrounds" method="GET" class="form-inline">
                 <div class="form-group">
                     <input type="text" name="search" placeholder="Campground search..." class="form-control">
-                    <input type="submit" value="Search" class="btn btn-default">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-success">
                 </div>
             </form>
         </p>
     </div>
-    
+
     <ul class="slideshow">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
     </ul>
 
-<% include partials/footer %>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

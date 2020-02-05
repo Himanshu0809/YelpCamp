@@ -40,46 +40,54 @@ body {
     /* to make the images faded out */
     z-index: 0;
     animation: imageAnimation 50s linear infinite; 
-  }
+}
 
-  .slideshow li:nth-child(1) { 
+form{
+  justify-content:center;
+}
+
+.slideshow li:nth-child(1) { 
     background-image: url(../1.jpg) 
-  }
-  .slideshow li:nth-child(2) { 
+}
+
+.slideshow li:nth-child(2) { 
     background-image: url(../2.jpg);
     animation-delay: 10s; 
-  }
-  .slideshow li:nth-child(3) { 
+}
+
+.slideshow li:nth-child(3) { 
     background-image: url(../3.jpg);
     animation-delay: 20s; 
-  }
-  .slideshow li:nth-child(4) { 
+}
+
+.slideshow li:nth-child(4) { 
     background-image: url(http://i.imgur.com/2LSMCmJ.jpg);
     animation-delay: 30s; 
-  }
-  .slideshow li:nth-child(5) { 
+}
+
+.slideshow li:nth-child(5) { 
     background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
     animation-delay: 40s; 
-  }
+}
 
-  @keyframes imageAnimation { 
+@keyframes imageAnimation { 
     0% { 
-      opacity: 0; 
-      animation-timing-function: ease-in;
+        opacity: 0; 
+        animation-timing-function: ease-in;
     }
     10% {
-      opacity: 1;
-      animation-timing-function: ease-out;
+        opacity: 1;
+        animation-timing-function: ease-out;
     }
     20% {
-      opacity: 1
+        opacity: 1
     }
     30% {
-      opacity: 0
+        opacity: 0
     }
-  }
+}
 
 /* Older browser support - .no-cssanimations class added by modernizr */
 .no-cssanimations .slideshow li {
-	opacity: 1;
+	  opacity: 1;
 }
