@@ -145,7 +145,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), async function (
             }
 
             //redirect back to campgrounds page
-            res.redirect(`/campgrounds/${campground.id}`);
+            res.redirect(`/campgrounds/${campground.slug}`);
         } catch (err) {
             req.flash('error', err.message);
             res.redirect('back');
@@ -194,8 +194,8 @@ router.get("/:slug", function (req, res) {
 });
 
 // Campground Like Route
-router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
-    Campground.findById(req.params.id, function (err, foundCampground) {
+router.post("/:slug/like", middleware.isLoggedIn, function (req, res) {
+    Campground.findOne({slug: req.params.slug}, function (err, foundCampground) {
         if (err) {
             console.log(err);
             return res.redirect("/campgrounds");
@@ -219,7 +219,7 @@ router.post("/:id/like", middleware.isLoggedIn, function (req, res) {
                 console.log(err);
                 return res.redirect("/campgrounds");
             }
-            return res.redirect("/campgrounds/" + foundCampground._id);
+            return res.redirect('back');
         });
     });
 });

@@ -267,6 +267,12 @@ main > .container {
     margin-right: 10px;
   }
   
+.search-button{
+    font-size: large;
+    padding: 6%;
+    margin-bottom: 10%;
+}
+
   /* Thumbnail styles */
   .thumbnail img {
       width: 100%;
