@@ -33,6 +33,7 @@ mongoose.connect(url, { useNewUrlParser: true })
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use('/public/img/', express.static('./public/img'));
 app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB();   //every time we run the server seeds.js runs
