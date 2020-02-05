@@ -23,3 +23,328 @@
 .checked{
     color:yellow;
 }
+
+/* Custom CSS
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+  
+::-webkit-scrollbar {
+    width: 0px;               /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+  
+body {
+    background: #F1F3FA;
+    margin-top: 60px;
+    margin-bottom: 60px;  /* Margin bottom by footer height */
+}
+  
+main > .container {
+    padding: 60px 15px 0;
+}
+  
+.footer {
+    bottom: 0;
+    width: 100%;
+    height: 60px;         /* Set the fixed height of the footer here */
+    line-height: 30px;    /* Vertically center the text there */
+    background-color: #f5f5f5;
+}
+  
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+  
+/* Campground Card */
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+  
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+  
+  /* Profile Page */
+  .profile {
+    margin: 20px 0;
+  }
+  
+  /* Profile sidebar */
+  .profile-sidebar {
+    padding: 20px 0 10px 0;
+    background: #fff;
+  }
+  
+  .profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;       /* Scale the image so it covers whole area, thus will likely crop */
+    object-position: center; /* Center the image within the element */
+  }
+  
+  @media (min-width: 768px) {
+    .profile-userpic img {
+      float: none;
+      margin: 0 auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;       /* Scale the image so it covers whole area, thus will likely crop */
+      object-position: center; /* Center the image within the element */
+    }
+  }
+  
+  
+  .profile-userinfo {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .profile-userinfo-fullname {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+  
+  .profile-userinfo-username {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+  }
+  
+  .profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+  }
+      
+  .profile-usermenu {
+    margin-top: 30px;
+  }
+  
+  .profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+  }
+  
+  .profile-usermenu ul li:last-child {
+    border-bottom: none;
+  }
+  
+  .profile-usermenu ul li a {
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  
+  .profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+  }
+  
+  .profile-usermenu ul li a:hover {
+    background-color: #fafcfd;
+    color: #5b9bd1;
+  }
+  
+  .profile-usermenu ul li.active {
+    border-bottom: none;
+  }
+  
+  .profile-usermenu ul li.active a {
+    color: #5b9bd1;
+    background-color: #f6f9fb;
+    border-left: 2px solid #5b9bd1;
+    margin-left: -2px;
+  }
+  
+  /* Profile Content */
+  .profile-content {
+    padding: 20px;
+    background: #fff;
+    min-height: 460px;
+  }
+  
+  /* Form */
+  
+  .login-register {
+    width: 100%;
+    max-width: 400px;
+    padding: 5% 15px;
+    margin: auto;
+  }
+  
+  .form-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group > input,
+  .form-group > label {
+    height: 3.125rem;
+    padding: .75rem;
+  }
+  
+  .form-group > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0; /* Override default `<label>` margin */
+    line-height: 1.5;
+    color: #495057;
+    pointer-events: none;
+    cursor: text; /* Match the input under the label */
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
+  }
+  
+  .form-group input::-webkit-input-placeholder {
+    color: transparent;
+  }
+  
+  .form-group input:-ms-input-placeholder {
+    color: transparent;
+  }
+  
+  .form-group input::-ms-input-placeholder {
+    color: transparent;
+  }
+  
+  .form-group input::-moz-placeholder {
+    color: transparent;
+  }
+  
+  .form-group input::placeholder {
+    color: transparent;
+  }
+  
+  .form-group input:not(:placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+  }
+  
+  .form-group input:not(:placeholder-shown) ~ label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 12px;
+    color: #777;
+  }
+  
+  /* Button */
+  .btn-space {
+    margin-right: 10px;
+  }
+  
+  /* Thumbnail styles */
+  .thumbnail img {
+      width: 100%;
+  }
+  
+  .thumbnail {
+      padding: 0;
+  }
+  
+  .thumbnail .caption-full {
+      padding: 9px;
+  }
+  
+  /* Google Map styles */
+  #map {
+      height: 400px;
+      width: 100%;
+  }
+  
+  /* Campground show page delete button */
+  .delete-form {
+      display: inline-block;
+  }
+  
+  /* Flexbox grid fix */
+  .flex-wrap {
+    display:flex;
+    flex-wrap: wrap;
+  }
+  
+  /* Table */
+  .main-box {
+    background: #FFFFFF;
+    -webkit-box-shadow: 1px 1px 2px 0 #CCCCCC;
+    -moz-box-shadow: 1px 1px 2px 0 #CCCCCC;
+    -o-box-shadow: 1px 1px 2px 0 #CCCCCC;
+    -ms-box-shadow: 1px 1px 2px 0 #CCCCCC;
+    box-shadow: 1px 1px 2px 0 #CCCCCC;
+    margin-bottom: 16px;
+    -webikt-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+  
+  .user-list tbody td .user-subhead {
+    font-size: 0.875em;
+    font-style: italic;
+  }
+  .user-list tbody td .user-link {
+    display: block;
+    font-size: 1.25em;
+    padding-top: 3px;
+    margin-left: 60px;
+  }
+  
+  .table thead tr th {
+    text-transform: uppercase;
+    font-size: 0.875em;
+  }
+  
+  .table thead tr th {
+    border-bottom: 2px solid #e7ebee;
+  }
+  
+  .table tbody tr td:first-child {
+    font-size: 1.125em;
+    font-weight: 300;
+  }
+  
+  .table tbody tr td {
+    font-size: 0.875em;
+    vertical-align: middle;
+    border-top: 1px solid #e7ebee;
+    padding: 12px 8px;
+  }
+  
+  /* Like Users */
+  #liked-users:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
