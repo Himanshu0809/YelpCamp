@@ -1,35 +1,42 @@
-<%include ../partials/header%>
+<%- include('../partials/header'); -%>
 
-<div class="container">
-    <div class="row">
-        <h1 style="text-align: center">New Campground</h1>
-        <div style="width:30%; margin: 25px auto;">
-            <form action="/campgrounds" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="campground[name]" placeholder="name">
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="number" name="campground[price]" placeholder="price" min="0.01"
-                        step="0.01">
-                </div>
-                <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
-                </div>
-                <div class="form-group">
-                    <input class="form-control" type="text" name="campground[description]" placeholder="description">
-                </div>
-                <!-- <div class="form-group">
-                    <label for="location">Location</label>
-                    <input class="form-control" type="text" name="location" id="location" placeholder="Yosemite National Park, CA">
-                </div> -->
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit</button>
-                </div>
-            </form>
-            <a href="/campgrounds">GO BACK</a>
+    <!-- Page Contents -->
+    <main class="container">
+      <form class="login-register" action="/campgrounds" method="POST" enctype="multipart/form-data">
+        
+        <div class="text-center mb-4">
+          <h1 class="h3 mb-3 font-weight-normal">New Campground</h1>
         </div>
-    </div>
-</div>
 
-<%include ../partials/footer%>
+        <div class="form-group">
+          <input id="campground-name" class="form-control" type="text" name="campground[name]" placeholder="Campground Name" required autofocus>
+          <label for="campground-name">Campground Name</label>
+        </div>
+
+        <div class="form-group">
+          <input id="campground-price" class="form-control" type="number" name="campground[price]" placeholder="Price (USD per day)" min="0.00" step="0.01" required>
+          <label for="campground-price">Price (USD per day)</label>
+        </div>
+       
+        <div class="form-group">
+          <input id="campground-desc" class="form-control" type="text" name="campground[description]" placeholder="Description" required>
+          <label for="campground-desc">Description</label>
+        </div>
+
+        <!-- <div class="form-group">
+          <input id="campground-location" class="form-control" type="text" name="location" placeholder="Yosemite National Park, CA" required>
+          <label for="campground-location">Location (ex: Yosemite National Park, CA)</label>
+        </div> -->
+
+        <div class="form-group">
+          <input id="campground-image" class="form-control" type="file" accept="image/*" name="image" autocomplete="off" required>
+          <label for="campground-image">Image</label>
+        </div>
+
+        <button class="btn btn-lg btn-secondary btn-block" type="submit">Submit</button>
+        <a href="/campgrounds"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go Back</a>
+
+      </form>
+    </main>      
+
+<%- include('../partials/footer'); -%>
