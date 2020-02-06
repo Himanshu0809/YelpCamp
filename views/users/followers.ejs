@@ -1,0 +1,105 @@
+<% include ../partials/header %>
+
+<main role="main" class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- START PROFILE SIDEBAR -->
+                <div class="profile-sidebar">
+                    <!-- Profile Image -->
+                    <div class="profile-userpic" style="text-align: center;">
+                        <img src="<%= user.avatar %>" class="img-responsive" alt="User Avatar">
+                    </div>
+                    <!-- Profile Info -->
+                    <div class="profile-userinfo">
+                        <div class="profile-userinfo-fullname">
+                            <%= user.firstName + " " + user.lastName %>
+                        </div>
+                        <div class="profile-userinfo-username">
+                            <%= "@" + user.username %>
+                        </div>
+                    </div>
+                    <!-- Social Button -->
+                    <div class="profile-userbuttons">
+                        <a href="/follow/<%= user.id %>"><button type="button" class="btn btn-success btn-sm">Follow</button></a>
+                        <a class="btn btn-danger btn-sm" href="mailto:<%= user.email %>">Email</a>
+                    </div>
+                    <!-- User Menu -->
+                    <div class="profile-usermenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/<%=user._id%>">
+                                    <i class="fas fa-campground"></i>
+                                    Posts </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/users/<%=user._id%>/followers">
+                                    <i class="fas fa-users"></i>
+                                    Followers </a>
+                            </li>
+                            <% if (currentUser && user._id.equals(currentUser._id)) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/<%= user._id%>/edit">
+                                    <i class="fas fa-edit"></i>
+                                    Edit Profile </a>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- User Contents -->
+                <div class="row profile-content">
+                    <div class="col-md-12 profile-userinfo-username" style="color: black; ">
+                        <h2><%= "@" + user.username %> Followers</h2>
+                    </div>
+                    <div class="row">
+                        <div class="main-box col-md-12">
+                            <div class="main-box-body clearfix">
+                                <div class="table-responsive">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th>&nbsp;</th>
+                                                <th class="text-center"><span>Username</span></th>
+                                                <th class="text-center"><span>Name</span></th>
+                                                <th class="text-center"><span>Email</span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% user.followers.forEach(function(follower){%>
+                                            <tr>
+                                                <td class="profile-userpic" style="text-align: center;">
+                                                    <img src="<%= follower.avatar %>" class="img-responsive" alt="User Avatar">
+                                                </td>
+                                                <td class="profile-userinfo-username" style="text-align: center;">
+                                                    <%= "@" + follower.username %>
+                                                </td>
+                                                <td class="profile-userinfo-fullname" style="text-align: center;">
+                                                    <%= follower.firstName + " " + follower.lastName %>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <a href="mailto:<%= user.email %>"><%= follower.email %></a>
+                                                </td>
+                                                <td>
+                                                    <form class="inline-form" action="/users/<%=follower.id%>" method="GET">
+                                                        <button class="btn btn-sm btn-outline-secondary">View Profile</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<% include ../partials/footer %>

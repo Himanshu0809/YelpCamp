@@ -1,44 +1,117 @@
-<%include ../partials/header%>
+<% include ../partials/header %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <h1><%=user.firstName+" "+user.lastName%></h1>
-            <div class="thumbnail">
-                <img src="<%=user.avatar%>" alt="user profile image">
-                <div class="caption"><a href="mailto:<%=user.email%>"><%=user.email%></a></div>
-            </div>
-            <a href="/follow/<%= user.id %>"><button class="btn btn-primary">Follow <%= user.username %></button></a>
-            This is a good post and we are going to display all the posts by that user on the user profile page.
-        </div>
-        <div class="col-md-8">
-            <div>
-                <h3><%=user.username%>'s Campgrounds</h3>
-                <ul>
-                    <%campgrounds.forEach(function(campground){%>
-                        <ul>
-                            <li>
-                                <a href="/campgrounds/<%=campground.id%>"><%=campground.name%></a>
+<main role="main" class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- START PROFILE SIDEBAR -->
+                <div class="profile-sidebar">
+                    <!-- Profile Image -->
+                    <div class="profile-userpic" style="text-align: center;">
+                        <img src="<%= user.avatar %>" class="img-responsive" alt="User Avatar">
+                    </div>
+                    <!-- Profile Info -->
+                    <div class="profile-userinfo">
+                        <div class="profile-userinfo-fullname">
+                            <%= user.firstName + " " + user.lastName %>
+                        </div>
+                        <div class="profile-userinfo-username">
+                            <%= "@" + user.username %>
+                        </div>
+                    </div>
+                    <!-- Social Button -->
+                    <div class="profile-userbuttons">
+                        <a href="/follow/<%= user.id %>"><button type="button" class="btn btn-success btn-sm">Follow</button></a>
+                        <a class="btn btn-danger btn-sm" href="mailto:<%= user.email %>">Email</a>
+                    </div>
+                    <!-- User Menu -->
+                    <div class="profile-usermenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/users/<%=user._id%>">
+                                    <i class="fas fa-campground"></i>
+                                    Posts </a>
                             </li>
-                        </ul>
-                    <%});%>
-                </ul>
-            </div>
-            <div>
-                <h3><%=user.username%>'s Followers</h3>
-                <ul>
-                    <% user.followers.forEach(function(follower){%>
-                        <ul>
-                            <li>
-                                <a href="/users/<%=follower.id%>"><%=follower.username%></a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/<%=user._id%>/followers">
+                                    <i class="fas fa-users"></i>
+                                    Followers </a>
                             </li>
+                            <% if (currentUser && user._id.equals(currentUser._id)) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/<%= user._id%>/edit">
+                                    <i class="fas fa-edit"></i>
+                                    Edit Profile </a>
+                            </li>
+                            <% } %>
                         </ul>
-                    <%})%>
-                </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- User Contents -->
+                <div class="row profile-content">
+                    <div class="col-md-12 profile-userinfo-username" style="color: black; ">
+                        <h2><%= "@" + user.username %> Posts</h2>
+                    </div>
+                    
+                    <% campgrounds.forEach(campground => { %>
+                    <div class="col-md-6">
+                        <div class="card mb-6 shadow-sm">
+                            <img class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                src="<%= campground.image %>" preserveAspectRatio="xMidYMid slice" focusable="false"
+                                role="img">
+                            <div class="card-body">
+                                <p class="card-text"><%= campground.name %></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <form action="/campgrounds/<%= campground.slug %>/like" method="POST">
+                                            <% if (currentUser && campground.likes.some(function (like) {
+                          return like.equals(currentUser._id)
+                        })) { %>
+                                            <button class="btn btn-sm btn-primary btn-block">
+                                                <i class="fas fa-thumbs-up"></i> Liked
+                                            </button>
+                                            <% } else { %>
+                                            <button class="btn btn-sm btn-secondary btn-block">
+                                                <i class="fas fa-thumbs-up"></i> Like
+                                            </button>
+                                            <% } %>
+                                        </form>
+                                        <form class="inline-form" action="/campgrounds/<%= campground.slug %>"
+                                            method="GET">
+                                            <button class="btn btn-sm btn-outline-secondary btn-block"><i
+                                                    class="fas fa-mountain"></i> View</button>
+                                        </form>
+                                    </div>
+                                    <small class="text-muted"><%= campground.author.username %></small>
+                                </div>
+                                <br>
+                                <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <form class="inline-form" action="/campgrounds/<%= campground.slug %>/edit"
+                                            method="GET">
+                                            <button class="btn btn-sm btn-outline-warning">Update</button>
+                                        </form>
+                                    </div>
+                                    <div class="btn-group">
+                                        <form class="inline-form"
+                                            action="/campgrounds/<%= campground.slug %>/?_method=DELETE" method="POST">
+                                            <button class="btn btn-sm btn-outline-danger">Remove</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <% }); %>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 
-
-<%include ../partials/footer%>
+<% include ../partials/footer %>

@@ -23,22 +23,35 @@ router.get('/users', async (req, res) => {
     } catch (err) { }
 });
 
-//USERS PROFILE
-router.get("/users/:id", async function (req, res) {
-    await User.findById(req.params.id).populate('followers').exec(async function (err, foundUser) {
-        if (err) {
-            req.flash("error", "Something went wrong");
-            res.redirect("/");
-        }
-        await Campground.find().where('author.id').equals(foundUser._id).exec(function (err, campgrounds) {
-            if (err) {
-                req.flash("error", "Something went wrong");
-                res.redirect("/");
-            }
-            res.render("users/show", { user: foundUser, campgrounds: campgrounds });
-        })
-    })
-});
+// METHOD  : GET
+// ROUTE   : /users/:id
+// FUNCTION: Show information page
+router.get('/users/:id', async (req, res) => {
+    try {
+      const foundUser = await User.findById(req.params.id);
+      const campgrounds = await Campground.find()
+        .where('author.id')
+        .equals(foundUser._id)
+        .exec();
+  
+      res.render('users/show', { user: foundUser, campgrounds });
+    } catch (err) {
+      req.flash('error', 'Something went wrong...');
+      res.redirect('/campgrounds');
+    }
+  });  
+
+
+//List all the followers
+router.get('/users/:id/followers', async function(req, res){
+    try {
+        const foundUser = await User.findById(req.params.id).populate('followers');
+        res.render('users/followers', { user: foundUser});
+      } catch (err) {
+        req.flash('error', 'Something went wrong...');
+        res.redirect('/campgrounds');
+      }
+})
 
 // follow user
 router.get('/follow/:id', middleware.isLoggedIn, async function (req, res) {
