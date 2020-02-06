@@ -247,11 +247,6 @@
                     <h4>
                         <strong>Leave a review <i class="fas fa-star"> </i>
                             <span class="pull-right">
-                                <!-- <a class="btn btn-success pull-right" role="button" data-toggle="collapse"
-                                    href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
-                                    <span aria-hidden="true"></span>
-                                    <i class="fas fa-plus"> </i> Add new comment
-                                </a> -->
                                 <a class="btn btn-success <% if (currentUser && campground.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>"
                                     href="/campgrounds/<%= campground.slug %>/reviews/new">
                                     <i class="fas fa-plus"> </i> Write a New Review

@@ -58,9 +58,9 @@
                     <li class="nav-item <%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>">
                         <a class="nav-link" href="/campgrounds">Campgrounds</a>
                     </li>
-                    <!-- <li class="nav-item <%= typeof page !== 'undefined' && page === 'users' ? 'active' : '' %>">
+                    <li class="nav-item <%= typeof page !== 'undefined' && page === 'users' ? 'active' : '' %>">
                         <a class="nav-link" href="/users">Members</a>
-                    </li> -->
+                    </li>
                 </ul>
                 <% if (!currentUser) { %>
                 <a class="btn btn-outline-light btn-space" href="/campgrounds/new">

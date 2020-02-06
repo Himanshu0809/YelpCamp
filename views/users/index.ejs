@@ -1,0 +1,53 @@
+<%- include('../partials/header'); -%>
+
+<!-- Page Contents -->
+<main role="main" class="flex-shrink-0">
+    <div class="container">
+        <section>
+            <div class="row">
+                <div class="main-box col-md-12">
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table user-list">
+                                <thead>
+                                    <tr>
+                                        <th>&nbsp;</th>
+                                        <th class="text-center"><span>Username</span></th>
+                                        <th class="text-center"><span>Name</span></th>
+                                        <th class="text-center"><span>Email</span></th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% users.forEach(function(user){ %>
+                                    <tr>
+                                        <td class="profile-userpic" style="text-align: center;">
+                                            <img src="<%= user.avatar %>" class="img-responsive" alt="User Avatar">
+                                        </td>
+                                        <td class="profile-userinfo-username" style="text-align: center;">
+                                            <%= "@" + user.username %>
+                                        </td>
+                                        <td class="profile-userinfo-fullname" style="text-align: center;">
+                                            <%= user.firstName + " " + user.lastName %>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="mailto:<%= user.email %>"><%= user.email %></a>
+                                        </td>
+                                        <td>
+                                            <form class="inline-form" action="/users/<%= user._id %>" method="GET">
+                                                <button class="btn btn-sm btn-outline-secondary">View Profile</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<%- include('../partials/footer'); -%>
