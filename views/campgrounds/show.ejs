@@ -110,7 +110,7 @@
 
         </div>
 
-        <div class="row">       
+        <div class="row">
             <div class="col-md-8">
                 <!--COMMENT SECTION START-->
                 <div style="border-top:5px solid rgb(39, 37, 37)" class="card card-body bg-light">
@@ -245,7 +245,7 @@
                 <!-- reviews -->
                 <div style="border-top:5px solid rgb(39, 37, 37)" class="card card-body bg-light">
                     <h4>
-                        <strong>Leave a review: <i class="fas fa-star"> </i>
+                        <strong>Leave a review <i class="fas fa-star"> </i>
                             <span class="pull-right">
                                 <!-- <a class="btn btn-success pull-right" role="button" data-toggle="collapse"
                                     href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
@@ -253,16 +253,14 @@
                                     <i class="fas fa-plus"> </i> Add new comment
                                 </a> -->
                                 <a class="btn btn-success <% if (currentUser && campground.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>"
-                                    href="/campgrounds/<%= campground._id %>/reviews/new">
+                                    href="/campgrounds/<%= campground.slug %>/reviews/new">
                                     <i class="fas fa-plus"> </i> Write a New Review
                                 </a>
                             </span>
                         </strong>
                     </h4>
                     <div class="caption-full">
-                         <!--Review section title-->
-                        
-
+                        <!--Review section title-->
                         <% if (campground.rating === 0) { %>
                         <h5>
                             <em>No reviews yet.</em>
@@ -270,28 +268,29 @@
                         <% } else { %>
                         <hr style="margin-top: 0; border: 1px solid black;">
                         <% campground.reviews.slice(0, 5).forEach(function(review){ %>
-                        <div>Review by: 
-                            <strong><a  href="/users/<%=review.author.id%>"><%= review.author.username %></a></strong>
+                        <div>Review by:
+                            <strong><a href="/users/<%=review.author.id%>"><%= review.author.username %></a></strong>
                             <span class="pull-right"><em><%= review.updatedAt.toDateString() %></em></span>
                         </div>
                         <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - review.rating) %>
-                        
+
 
                         <p style="text-align: justify; word-wrap: break-word; font-size: large;">
                             <%= review.text %>
                         </p>
                         <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
-                    
+
 
 
                         <a class="btn btn-xs btn-outline-warning"
-                            href="/campgrounds/<%=campground.slug %>/reviews/<%=review._id %>/edit"><i style="color:black" class="fas fa-edit">
+                            href="/campgrounds/<%=campground.slug %>/reviews/<%=review._id %>/edit"><i
+                                style="color:black" class="fas fa-edit">
                                 Edit</i></a>
                         <form id="delete-form"
                             action="/campgrounds/<%=campground.slug %>/reviews/<%=review._id %>?_method=DELETE"
                             method="POST">
                             <button class="btn btn-xs btn-outline-danger"><i style="color:black"
-                                class="fas fa-calendar-times"> Delete</i></button>
+                                    class="fas fa-calendar-times"> Delete</i></button>
                         </form>
                         <% } %>
 
@@ -299,12 +298,12 @@
                         <hr>
                         <% }); %>
                         <div style="margin-bottom: 10px;">
-                            <h4><a href="/campgrounds/<%= campground._id %>/reviews"><i class="fa fa-search"
+                            <h4><a href="/campgrounds/<%= campground.slug %>/reviews"><i class="fa fa-search"
                                         aria-hidden="true"></i> See all reviews</a></h4>
                         </div>
                         <% } %>
                         <div>
-                            
+
                         </div>
                     </div>
                 </div>

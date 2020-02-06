@@ -7,7 +7,10 @@ var userSchema = new mongoose.Schema({
         required:true
     },
     password: String,
-    avatar:String,
+    avatar:{
+        type:String,
+        default:'https://i.imgur.com/wGysdIt.png'
+    },
     firstName:String,
     lastName:String,
     notifications: [

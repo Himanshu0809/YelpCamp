@@ -6,7 +6,7 @@ var middleware = require("../middleware");
 
 // Reviews Index
 router.get("/", function (req, res) {
-    Campground.findById(req.params.id).populate({
+    Campground.findOne({slug: req.params.slug}).populate({
         path: "reviews",
         options: {sort: {createdAt: -1}} // sorting the populated reviews array to show the latest first
     }).exec(function (err, campground) {
@@ -20,19 +20,23 @@ router.get("/", function (req, res) {
 
 // Reviews New
 router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
+    console.log("hejw");
     // middleware.checkReviewExistence checks if a user already reviewed the campground, only one review per user is allowed
-    Campground.findById(req.params.id, function (err, campground) {
+    Campground.findOne({slug: req.params.slug}, function (err, campground) {
+        console.log("hehe");
         if (err) {
+            console.log("wow");
             req.flash("error", err.message);
             return res.redirect("back");
         }
+        console.log("hi");
         res.render("reviews/new", {campground: campground});
     });
 });
 
 // Reviews Create
 router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, function (req, res) {
-    Campground.findById(req.params.id).populate("reviews").exec(function (err, campground) {
+    Campground.findOne({slug: req.params.slug}).populate("reviews").exec(function (err, campground) {
         if (err) {
             req.flash("error", err.message);
             return res.redirect("back");
@@ -54,19 +58,26 @@ router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, functio
             //save campground
             campground.save();
             req.flash("success", "Your review has been successfully added.");
-            res.redirect('/campgrounds/' + campground._id);
+            res.redirect('/campgrounds/' + campground.slug);
         });
     });
 });
 
 // Reviews Edit
 router.get("/:review_id/edit", middleware.checkReviewOwnership, function (req, res) {
-    Review.findById(req.params.review_id, function (err, foundReview) {
-        if (err) {
-            req.flash("error", err.message);
+    Campground.findOne({ slug: req.params.slug }, function (err, foundCampground) {
+        if (err || !foundCampground) {
+            req.flash("error", "No campground found");
             return res.redirect("back");
         }
-        res.render("reviews/edit", {campground_id: req.params.id, review: foundReview});
+
+        Review.findById(req.params.review_id, function (err, foundReview) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            res.render("reviews/edit", { campground_slug: req.params.slug, review: foundReview });
+        });
     });
 });
 
@@ -77,7 +88,7 @@ router.put("/:review_id", middleware.checkReviewOwnership, function (req, res) {
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        Campground.findById(req.params.id).populate("reviews").exec(function (err, campground) {
+        Campground.findOne({slug: req.params.slug}).populate("reviews").exec(function (err, campground) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
@@ -87,7 +98,7 @@ router.put("/:review_id", middleware.checkReviewOwnership, function (req, res) {
             //save changes
             campground.save();
             req.flash("success", "Your review was successfully edited.");
-            res.redirect('/campgrounds/' + campground._id);
+            res.redirect('/campgrounds/' + campground.slug);
         });
     });
 });
@@ -99,7 +110,7 @@ router.delete("/:review_id", middleware.checkReviewOwnership, function (req, res
             req.flash("error", err.message);
             return res.redirect("back");
         }
-        Campground.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function (err, campground) {
+        Campground.findOneAndUpdate({slug: req.params.slug}, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function (err, campground) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
@@ -109,7 +120,7 @@ router.delete("/:review_id", middleware.checkReviewOwnership, function (req, res
             //save changes
             campground.save();
             req.flash("success", "Your review was deleted successfully.");
-            res.redirect("/campgrounds/" + req.params.id);
+            res.redirect("/campgrounds/" + req.params.slug);
         });
     });
 });

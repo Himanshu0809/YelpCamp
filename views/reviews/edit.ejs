@@ -1,9 +1,9 @@
-<% include ../partials/header %>
+<%- include('../partials/header'); -%>
 <div class="container">
     <div class="row">
         <h1 style="text-align: center">Change Review</h1>
         <div style="width: 30%; margin: 25px auto;">
-            <form action="/campgrounds/<%= campground_id %>/reviews/<%= review._id %>?_method=PUT" method="POST">
+            <form action="/campgrounds/<%= campground_slug %>/reviews/<%= review._id %>?_method=PUT" method="POST">
                 <div class="form-group">
                     <label for="rating">Leave a rating:</label>
                     <fieldset class="starability-basic form-group" id="rating">
@@ -47,7 +47,7 @@
                     <button class="btn btn-primary btn-block">Submit a Review</button>
                 </div>
             </form>
-            <a href="/campgrounds/<%= campground_id %>">Go Back</a>
+            <a href="/campgrounds/<%= campground_slug %>">Go Back</a>
         </div>
     </div>
 </div>
