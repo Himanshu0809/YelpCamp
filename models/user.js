@@ -26,8 +26,7 @@ var userSchema = new mongoose.Schema({
     	}
     ],
     email:{ 
-        type: String, 
-        unique:true, 
+        type: String,  
         required:true
     }, 
     resetPasswordToken: String,

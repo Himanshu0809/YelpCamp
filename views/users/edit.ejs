@@ -1,0 +1,105 @@
+<% include ../partials/header %>
+
+<!-- Page Contents -->
+<main role="main" class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- START PROFILE SIDEBAR -->
+                <div class="profile-sidebar">
+                    <!-- Profile Image -->
+                    <div class="profile-userpic" style="text-align: center;">
+                        <img src="<%= user.avatar %>" class="img-responsive" alt="User Avatar">
+                    </div>
+                    <!-- Profile Info -->
+                    <div class="profile-userinfo">
+                        <div class="profile-userinfo-fullname">
+                            <%= user.firstName + " " + user.lastName %>
+                        </div>
+                        <div class="profile-userinfo-username">
+                            <%= "@" + user.username %>
+                        </div>
+                    </div>
+                    <!-- Social Button -->
+                    <div class="profile-userbuttons">
+                        <a href="/follow/<%= user.id %>"><button type="button"
+                                class="btn btn-success btn-sm">Follow</button></a>
+                        <a class="btn btn-danger btn-sm" href="mailto:<%= user.email %>">Email</a>
+                    </div>
+                    <!-- User Menu -->
+                    <div class="profile-usermenu">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/<%=user._id%>">
+                                    <i class="fas fa-campground"></i>
+                                    Posts </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/users/<%=user._id%>/followers">
+                                    <i class="fas fa-users"></i>
+                                    Followers </a>
+                            </li>
+                            <% if (currentUser && user._id.equals(currentUser._id)) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users/<%= user._id%>/edit">
+                                    <i class="fas fa-edit"></i>
+                                    Edit Profile </a>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- User Contents -->
+                <div class="row profile-content">
+                    <form class="login-register" action="/users/<%= user._id %>?_method=PUT" method="POST">
+                        <div class="profile-userpic text-center mb-4">
+                            <h1 class="h3 mb-3 font-weight-normal">Edit Profile</h1>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="username" class="form-control" value="<%= user.username %>"
+                                pattern="^[A-Za-z0-9]+$" title="May only contain a-z and 0-9" type="text"
+                                name="user[username]" placeholder="Username" disabled>
+                            <label for="username">Username</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="first-name" class="form-control" type="text" value="<%= user.firstName %>"
+                                name="firstName" placeholder="First Name">
+                            <label for="first-name">First Name</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="last-name" class="form-control" type="text" value="<%= user.lastName %>"
+                                name="lastName" placeholder="Last Name">
+                            <label for="last-name">Last Name</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="email" class="form-control" type="email" value="<%=user.email%>" name="email"
+                                placeholder="Email Address">
+                            <label for="email">Email Address</label>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input id="campground-image" class="form-control" type="text" value="<%=user.avatar%>"
+                                name="avatar" placeholder="give url of your image here">
+                            <label for="campground-image">Avatar</label>
+                        </div>
+
+                        <button class="btn btn-lg btn-secondary btn-block" type="submit">Update</button>
+                        <a href="/users/"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go
+                            Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+<% include ../partials/footer %>

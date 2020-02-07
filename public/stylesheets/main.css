@@ -13,12 +13,6 @@
 #delete-form{
     display:inline;
 }
- 
-/* Google Maps */
-#map {
-    height: 400px;
-    width: 100%;
-}
 
 .checked{
     color:yellow;
@@ -71,24 +65,24 @@ main > .container {
     user-select: none;
 }
   
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
     .bd-placeholder-img-lg {
-      font-size: 3.5rem;
+        font-size: 3.5rem;
     }
-  }
+}
   
   /* Profile Page */
-  .profile {
+.profile {
     margin: 20px 0;
-  }
+}
   
   /* Profile sidebar */
-  .profile-sidebar {
+.profile-sidebar {
     padding: 20px 0 10px 0;
     background: #fff;
-  }
+}
   
-  .profile-userpic img {
+.profile-userpic img {
     float: none;
     margin: 0 auto;
     width: 75px;
@@ -96,125 +90,125 @@ main > .container {
     border-radius: 50%;
     object-fit: cover;       /* Scale the image so it covers whole area, thus will likely crop */
     object-position: center; /* Center the image within the element */
-  }
+}
   
-  @media (min-width: 768px) {
+@media (min-width: 768px) {
     .profile-userpic img {
-      float: none;
-      margin: 0 auto;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;       /* Scale the image so it covers whole area, thus will likely crop */
-      object-position: center; /* Center the image within the element */
+        float: none;
+        margin: 0 auto;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;       /* Scale the image so it covers whole area, thus will likely crop */
+        object-position: center; /* Center the image within the element */
     }
-  }
+}
   
   
-  .profile-userinfo {
+.profile-userinfo {
     text-align: center;
     margin-top: 20px;
-  }
+}
   
-  .profile-userinfo-fullname {
+.profile-userinfo-fullname {
     color: #5a7391;
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 7px;
-  }
+}
   
-  .profile-userinfo-username {
+.profile-userinfo-username {
     text-transform: uppercase;
     color: #5b9bd1;
     font-size: 12px;
     font-weight: 600;
     margin-bottom: 15px;
-  }
+}
   
-  .profile-userbuttons {
+.profile-userbuttons {
     text-align: center;
     margin-top: 10px;
-  }
+}
   
-  .profile-userbuttons .btn {
+.profile-userbuttons .btn {
     text-transform: uppercase;
     font-size: 11px;
     font-weight: 600;
     padding: 6px 15px;
     margin-right: 5px;
-  }
+}
   
-  .profile-userbuttons .btn:last-child {
+.profile-userbuttons .btn:last-child {
     margin-right: 0px;
-  }
+}
       
-  .profile-usermenu {
+.profile-usermenu {
     margin-top: 30px;
-  }
+}
   
-  .profile-usermenu ul li {
+.profile-usermenu ul li {
     border-bottom: 1px solid #f0f4f7;
-  }
+}
   
-  .profile-usermenu ul li:last-child {
+.profile-usermenu ul li:last-child {
     border-bottom: none;
-  }
+}
   
-  .profile-usermenu ul li a {
+.profile-usermenu ul li a {
     color: #93a3b5;
     font-size: 14px;
     font-weight: 400;
-  }
+}
   
-  .profile-usermenu ul li a i {
+.profile-usermenu ul li a i {
     margin-right: 8px;
     font-size: 14px;
-  }
+}
   
-  .profile-usermenu ul li a:hover {
+.profile-usermenu ul li a:hover {
     background-color: #fafcfd;
     color: #5b9bd1;
-  }
+}
   
   .profile-usermenu ul li.active {
     border-bottom: none;
   }
   
-  .profile-usermenu ul li.active a {
+.profile-usermenu ul li.active a {
     color: #5b9bd1;
     background-color: #f6f9fb;
     border-left: 2px solid #5b9bd1;
     margin-left: -2px;
-  }
+}
   
   /* Profile Content */
-  .profile-content {
+.profile-content {
     padding: 20px;
     background: #fff;
     min-height: 460px;
-  }
+}
   
   /* Form */
   
-  .login-register {
+.login-register {
     width: 100%;
     max-width: 400px;
     padding: 5% 15px;
     margin: auto;
-  }
+}
   
-  .form-group {
+.form-group {
     position: relative;
     margin-bottom: 1rem;
-  }
+}
   
-  .form-group > input,
-  .form-group > label {
+.form-group > input,
+.form-group > label {
     height: 3.125rem;
     padding: .75rem;
-  }
+}
   
-  .form-group > label {
+.form-group > label {
     position: absolute;
     top: 0;
     left: 0;
@@ -228,44 +222,44 @@ main > .container {
     border: 1px solid transparent;
     border-radius: .25rem;
     transition: all .1s ease-in-out;
-  }
+}
   
-  .form-group input::-webkit-input-placeholder {
+.form-group input::-webkit-input-placeholder {
     color: transparent;
-  }
+}
   
-  .form-group input:-ms-input-placeholder {
+.form-group input:-ms-input-placeholder {
     color: transparent;
-  }
+}
   
-  .form-group input::-ms-input-placeholder {
+.form-group input::-ms-input-placeholder {
     color: transparent;
-  }
+}
   
-  .form-group input::-moz-placeholder {
+.form-group input::-moz-placeholder {
     color: transparent;
-  }
+}
   
-  .form-group input::placeholder {
+.form-group input::placeholder {
     color: transparent;
-  }
+}
   
-  .form-group input:not(:placeholder-shown) {
+.form-group input:not(:placeholder-shown) {
     padding-top: 1.25rem;
     padding-bottom: .25rem;
-  }
+}
   
-  .form-group input:not(:placeholder-shown) ~ label {
+.form-group input:not(:placeholder-shown) ~ label {
     padding-top: .25rem;
     padding-bottom: .25rem;
     font-size: 12px;
     color: #777;
-  }
+}
   
   /* Button */
-  .btn-space {
+.btn-space {
     margin-right: 10px;
-  }
+}
   
 .search-button{
     font-size: large;
@@ -274,37 +268,37 @@ main > .container {
 }
 
   /* Thumbnail styles */
-  .thumbnail img {
+.thumbnail img {
       width: 100%;
-  }
+}
   
-  .thumbnail {
+.thumbnail {
       padding: 0;
-  }
+}
   
-  .thumbnail .caption-full {
+.thumbnail .caption-full {
       padding: 9px;
-  }
+}
   
   /* Google Map styles */
-  #map {
+#map {
       height: 400px;
       width: 100%;
-  }
+}
   
   /* Campground show page delete button */
-  .delete-form {
+.delete-form {
       display: inline-block;
-  }
+}
   
   /* Flexbox grid fix */
-  .flex-wrap {
+.flex-wrap {
     display:flex;
     flex-wrap: wrap;
-  }
+}
   
   /* Table */
-  .main-box {
+.main-box {
     background: #FFFFFF;
     -webkit-box-shadow: 1px 1px 2px 0 #CCCCCC;
     -moz-box-shadow: 1px 1px 2px 0 #CCCCCC;
@@ -315,42 +309,42 @@ main > .container {
     -webikt-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-  }
+}
   
-  .user-list tbody td .user-subhead {
+.user-list tbody td .user-subhead {
     font-size: 0.875em;
     font-style: italic;
-  }
-  .user-list tbody td .user-link {
+}
+.user-list tbody td .user-link {
     display: block;
     font-size: 1.25em;
     padding-top: 3px;
     margin-left: 60px;
-  }
+}
   
-  .table thead tr th {
+.table thead tr th {
     text-transform: uppercase;
     font-size: 0.875em;
-  }
+}
   
-  .table thead tr th {
+.table thead tr th {
     border-bottom: 2px solid #e7ebee;
-  }
+}
   
-  .table tbody tr td:first-child {
+.table tbody tr td:first-child {
     font-size: 1.125em;
     font-weight: 300;
-  }
+}
   
-  .table tbody tr td {
+.table tbody tr td {
     font-size: 0.875em;
     vertical-align: middle;
     border-top: 1px solid #e7ebee;
     padding: 12px 8px;
-  }
+}
   
   /* Like Users */
-  #liked-users:hover {
+#liked-users:hover {
     cursor: pointer;
     text-decoration: underline;
-  }
+}

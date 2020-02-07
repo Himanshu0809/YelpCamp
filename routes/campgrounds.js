@@ -132,8 +132,8 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), async function (
             username: req.user.username
         };
         try {
-            let campground =await Campground.create(req.body.campground);
-            let user =await User.findById(req.user._id).populate('followers').exec();
+            let campground = await Campground.create(req.body.campground);
+            let user = await User.findById(req.user._id).populate('followers').exec();
             let newNotification = {
                 username: req.user.username,
                 campgroundId: campground.id
@@ -179,7 +179,7 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 //SHOW - show more info about one campground
 router.get("/:slug", function (req, res) {
     //find the campground with provided ID
-    Campground.findOne({slug: req.params.slug}).populate("comments likes").populate({
+    Campground.findOne({ slug: req.params.slug }).populate("comments likes").populate({
         path: "reviews",
         options: { sort: { createdAt: -1 } }
     }).exec(function (err, foundCampground) {
@@ -195,7 +195,7 @@ router.get("/:slug", function (req, res) {
 
 // Campground Like Route
 router.post("/:slug/like", middleware.isLoggedIn, function (req, res) {
-    Campground.findOne({slug: req.params.slug}, function (err, foundCampground) {
+    Campground.findOne({ slug: req.params.slug }, function (err, foundCampground) {
         if (err) {
             console.log(err);
             return res.redirect("/campgrounds");
@@ -226,7 +226,7 @@ router.post("/:slug/like", middleware.isLoggedIn, function (req, res) {
 
 //EDIT CAMPGROUND ROUTE
 router.get("/:slug/edit", middleware.checkCampgroundOwnership, function (req, res) {
-    Campground.findOne({slug: req.params.slug}, function (err, foundCampground) {
+    Campground.findOne({ slug: req.params.slug }, function (err, foundCampground) {
         res.render("campgrounds/edit", { campground: foundCampground });
     });
 });
@@ -282,7 +282,7 @@ router.get("/:slug/edit", middleware.checkCampgroundOwnership, function (req, re
 router.put("/:slug", middleware.checkCampgroundOwnership, upload.single('image'), function (req, res) {
     delete req.body.campground.rating;
     //find and update the correct campground
-    Campground.findOne({slug: req.params.slug}, async function (err, campground) {
+    Campground.findOne({ slug: req.params.slug }, async function (err, campground) {
         if (err) {
             req.flash("error", err.message);
             res.redirect("back");
@@ -317,7 +317,7 @@ router.put("/:slug", middleware.checkCampgroundOwnership, upload.single('image')
 
 //DESTROY CAMPGROUND ROUTE
 router.delete("/:slug", middleware.checkCampgroundOwnership, function (req, res) {
-    Campground.findOneAndRemove({slug: req.params.slug}, async function (err, campground) {
+    Campground.findOneAndRemove({ slug: req.params.slug }, async function (err, campground) {
         if (err) {
             req.flash("error", err.message);
             return res.redirect("back");

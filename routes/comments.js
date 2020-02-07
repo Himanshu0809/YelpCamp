@@ -7,7 +7,7 @@ var middleware = require("../middleware");
 //Comments New
 router.get("/new", middleware.isLoggedIn, function (req, res) {
     //find campground by id
-    Campground.findOne({slug: req.params.slug},function (err, campground) {
+    Campground.findOne({ slug: req.params.slug }, function (err, campground) {
         if (err) {
             console.log(err)
         } else {
@@ -19,7 +19,7 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 //Comments create
 router.post("/", middleware.isLoggedIn, function (req, res) {
     //lookup campground using id
-    Campground.findOne({slug: req.params.slug}, function (err, campground) {
+    Campground.findOne({ slug: req.params.slug }, function (err, campground) {
         if (err) {
             redirect("/campground");
         } else {
@@ -48,7 +48,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
 
 //COMMENT EDIT ROUTE
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req, res) {
-    Campground.findOne({slug: req.params.slug}, function (err, foundCampground) {
+    Campground.findOne({ slug: req.params.slug }, function (err, foundCampground) {
         if (err || !foundCampground) {
             req.flash("error", "No campground found");
             return res.redirect("back");

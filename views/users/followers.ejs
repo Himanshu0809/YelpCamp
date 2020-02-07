@@ -21,7 +21,8 @@
                     </div>
                     <!-- Social Button -->
                     <div class="profile-userbuttons">
-                        <a href="/follow/<%= user.id %>"><button type="button" class="btn btn-success btn-sm">Follow</button></a>
+                        <a href="/follow/<%= user.id %>"><button type="button"
+                                class="btn btn-success btn-sm">Follow</button></a>
                         <a class="btn btn-danger btn-sm" href="mailto:<%= user.email %>">Email</a>
                     </div>
                     <!-- User Menu -->
@@ -72,7 +73,8 @@
                                             <% user.followers.forEach(function(follower){%>
                                             <tr>
                                                 <td class="profile-userpic" style="text-align: center;">
-                                                    <img src="<%= follower.avatar %>" class="img-responsive" alt="User Avatar">
+                                                    <img src="<%= follower.avatar %>" class="img-responsive"
+                                                        alt="User Avatar">
                                                 </td>
                                                 <td class="profile-userinfo-username" style="text-align: center;">
                                                     <%= "@" + follower.username %>
@@ -84,8 +86,10 @@
                                                     <a href="mailto:<%= user.email %>"><%= follower.email %></a>
                                                 </td>
                                                 <td>
-                                                    <form class="inline-form" action="/users/<%=follower.id%>" method="GET">
-                                                        <button class="btn btn-sm btn-outline-secondary">View Profile</button>
+                                                    <form class="inline-form" action="/users/<%=follower.id%>"
+                                                        method="GET">
+                                                        <button class="btn btn-sm btn-outline-secondary">View
+                                                            Profile</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -95,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
